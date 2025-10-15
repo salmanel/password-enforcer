@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtualenv
+venv/
+
+# Runtime / generated
+password_hashes.txt
+uploads/
+test_results.csv
+
+# Large/third-party datasets
+SecLists/
+wordlists/*.tar.gz
+wordlists/*.zip
