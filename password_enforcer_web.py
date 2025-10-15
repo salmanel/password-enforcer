@@ -169,7 +169,6 @@ input[type=text],input[type=password],input[type=number],input[type=file]{width:
 
     <div class="footer">© SELY — local demo UI</div>
   </div>
-
 <script>
 document.addEventListener('DOMContentLoaded', function(){
   const pwd = document.getElementById('password');
@@ -179,48 +178,59 @@ document.addEventListener('DOMContentLoaded', function(){
   const toggle = document.getElementById('toggle');
   const resetBtn = document.getElementById('resetBtn');
 
+  // Safer, simpler scoring (no fragile escaping)
   function score(p){
-    let s=0;
-    if(p.length>=8) s++;
-    if(p.length>=12) s++;
-    if(/[A-Z]/.test(p)) s++;
-    if(/[a-z]/.test(p)) s++;
-    if(/[0-9]/.test(p)) s++;
-    if(/[!@#$%^&*()_\\-=[\\]{};':",.<>\\/\\\\|`~]/.test(p)) s++;
+    let s = 0;
+    if (!p) return 0;
+    if (p.length >= 8)  s++;
+    if (p.length >= 12) s++;
+    if (/[A-Z]/.test(p)) s++;
+    if (/[a-z]/.test(p)) s++;
+    if (/[0-9]/.test(p)) s++;
+    if (/[^A-Za-z0-9]/.test(p)) s++;   // ← any symbol / punctuation
     return s;
   }
 
   function render(){
-    const s = score(pwd.value||"");
-    const pct = Math.round((s/6)*100);
-    if(bar) bar.style.width = pct + "%";
-    meter.classList.remove('ok','mid','bad');
-    meter.classList.add(s>=5?'ok':(s>=3?'mid':'bad'));
-    line.textContent = "Score: " + s + " / 6";
+    const s = score(pwd ? pwd.value : "");
+    if (bar) {
+      const pct = Math.round((s/6)*100);
+      bar.style.width = pct + "%";
+    }
+    if (meter) {
+      meter.classList.remove('ok','mid','bad');
+      meter.classList.add(s>=5 ? 'ok' : (s>=3 ? 'mid' : 'bad'));
+    }
+    if (line) line.textContent = "Score: " + s + " / 6";
   }
 
-  if(pwd){ pwd.addEventListener('input', render); render(); }
+  if (pwd){
+    pwd.addEventListener('input', render);
+    render(); // initial
+  }
 
-  if(toggle){
+  if (toggle){
     toggle.addEventListener('click', function(ev){
       ev.preventDefault();
-      if(!pwd) return;
+      if (!pwd) return;
       pwd.type = (pwd.type === 'password') ? 'text' : 'password';
       toggle.textContent = (pwd.type === 'password') ? 'Show' : 'Hide';
       pwd.focus();
     });
   }
 
-  if(resetBtn){
+  if (resetBtn){
     resetBtn.addEventListener('click', function(ev){
       ev.preventDefault();
       const form = document.getElementById('pwform');
-      if(form) form.reset();
+      if (form) form.reset();
       render();
     });
   }
 });
 </script>
+
+
 </body>
 </html>
 """
