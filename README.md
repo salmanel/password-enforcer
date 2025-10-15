@@ -23,19 +23,9 @@ password_lab/
 ├─ password_enforcer_web.py     # Web UI entry point (Flask)
 ├─ password_enforcer.py         # (older CLI; optional to keep)
 ├─ pw_core.py                   # Shared core: policy, wordlist, hashing
-├─ run_pw_tests.sh              # Simple test harness for CLI
-├─ test_passwords.txt           # Sample passwords for the harness
-├─ test_results.csv             # Harness output (generated)
-├─ password_hashes.txt          # Saved bcrypt hashes (generated)
 ├─ wordlists/                   # Your local lists (e.g., jack_the_reaper.txt)
 ├─ SecLists/                    # (optional) local clone of SecLists
-├─ uploads/                     # Web UI uploads (generated)
-└─ venv/                        # Local virtualenv (do not commit)
 ```
-
-> **Recommendation:** keep `password_enforcer_cli.py`, `password_enforcer_web.py`, and `pw_core.py` as the supported interfaces.  
-> You can delete **`password_enforcer.py`** if it’s an older duplicate.
-
 ---
 
 ## 🧰 Prerequisites
@@ -139,32 +129,6 @@ You’ll see `accept/reject` vs. expected in a compact CSV.
 - `uploads/` (runtime)
 - `test_results.csv` (generated output)
 - Entire `SecLists/` (huge; reference it in README instead)
-
-**Optional to remove if superseded:**  
-- `password_enforcer.py` (keep only if you still use that entry point)
-
-Add a `.gitignore` like this:
-
-```
-# Python
-__pycache__/
-*.pyc
-
-# Virtualenv
-venv/
-
-# Runtime / generated
-password_hashes.txt
-uploads/
-test_results.csv
-
-# Large/third-party datasets
-SecLists/
-wordlists/*.tar.gz
-wordlists/*.zip
-```
-
----
 
 ## 🛣️ Roadmap Ideas
 
