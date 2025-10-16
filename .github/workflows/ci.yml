@@ -45,8 +45,9 @@ jobs:
       - name: Lint (ruff)
         run: ruff check .
 
-      - name: Smoke test: import core
+      - name: "Smoke test: import core"
         run: python -c "import pw_core; print('pw_core import OK')"
 
-      - name: Smoke test: CLI (show last 3 hashes)
+      - name: "Smoke test: CLI (show last 3 hashes)"
         run: python password_enforcer_cli.py --hash-file password_hashes.txt | tail -n 3
+
